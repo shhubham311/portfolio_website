@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_mail import Mail, Message
 from openai import OpenAI  # For Groq
 from dotenv import load_dotenv
+from threading import Thread  # Required for async email
 
 load_dotenv()
 
@@ -26,8 +27,8 @@ client = OpenAI(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-# --- 3. RESUME LINK (PASTE YOUR GOOGLE DRIVE LINK HERE) ---
-RESUME_LINK = "https://drive.google.com/file/d/1K7WmsumgIE32niIhhtHBs6Ny3cVA2olD/view?usp=drive_link"
+# --- 3. RESUME LINK ---
+RESUME_LINK = "https://drive.google.com/file/d/1yifNHLsLcUhe9zUzhGc3XfiCd5dBR2R3/view?usp=drive_link"
 
 # --- 4. RESUME CONTEXT ---
 RESUME_CONTEXT = f"""
@@ -89,7 +90,14 @@ CONTEXT:
 {RESUME_CONTEXT}
 """
 
-# ... rest of app.py ...
+# --- HELPER: Async Email Sender ---
+def send_async_email(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+            print("Email sent successfully!")
+        except Exception as e:
+            print(f"Failed to send email: {e}")
 
 @app.route('/')
 def home():
@@ -114,7 +122,7 @@ def chat():
 
 @app.route('/contact', methods=['POST'])
 def contact():
-    """Handles the form submission and sends email"""
+    """Handles the form submission and sends email asynchronously"""
     try:
         data = request.json
         name = data.get('name')
@@ -131,7 +139,10 @@ def contact():
             body=f"You received a new message from your portfolio website:\n\nName: {name}\nEmail: {sender_email}\n\nMessage:\n{message_body}"
         )
         
-        mail.send(msg)
+        # Send in a separate thread to prevent timeouts
+        thread = Thread(target=send_async_email, args=(app, msg))
+        thread.start()
+        
         return jsonify({"status": "success", "message": "Message sent successfully!"})
 
     except Exception as e:

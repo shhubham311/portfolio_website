@@ -1,6 +1,7 @@
 flask
 flask_cors
-flask_mail
+sendgrid
 openai
 python-dotenv
+flask_mail
 gunicorn

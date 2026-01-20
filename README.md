@@ -1,6 +1,7 @@
-# Portfolio Website
+# [Portfolio Website](https://portfolio-website-5i5g.onrender.com)
 
-A professional AI-powered portfolio website built with Flask, featuring an interactive chatbot powered by Groq's LLaMA model and email contact functionality.
+A professional AI-powered portfolio website built with Flask, featuring an interactive chatbot powered by Groq's LLaMA model and email contact functionality. The website is deployed on render.com.
+
 
 ## Project Overview
 
@@ -84,7 +85,7 @@ Contains sensitive environment variables:
 ### 2. Contact Form
 - Name, email, and message input fields
 - Form validation
-- Email integration using Flask-Mail
+- Asynchronous email integration using Flask-Mail and Python Threading (non-blocking)
 - Sends inquiries directly to the portfolio owner's Gmail
 - Success/error feedback to users
 
@@ -106,7 +107,7 @@ Embedded resume context includes:
 ## Setup Instructions
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.12+
 - Gmail account with App Password enabled
 - Groq API key
 
@@ -166,7 +167,7 @@ Receives and processes chat messages with AI responses
 ```
 
 ### POST `/contact`
-Processes contact form submissions and sends emails
+Handles contact form submissions and initiates asynchronous background email sending to prevent server timeouts.
 
 **Request Body:**
 ```json
