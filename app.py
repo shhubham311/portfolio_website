@@ -1,36 +1,24 @@
 import os
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from flask_mail import Mail, Message
 from openai import OpenAI  # For Groq
 from dotenv import load_dotenv
-from threading import Thread  # Required for async email
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-# --- 1. EMAIL CONFIGURATION ---
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.getenv("GMAIL_ADDRESS")     # Your email
-app.config['MAIL_PASSWORD'] = os.getenv("GMAIL_APP_PASSWORD") # The 16-char App Password
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv("GMAIL_ADDRESS")
-
-mail = Mail(app)
-
-# --- 2. GROQ CLIENT SETUP ---
+# --- GROQ CLIENT SETUP ---
 client = OpenAI(
     base_url="https://api.groq.com/openai/v1",
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-# --- 3. RESUME LINK ---
+# --- RESUME LINK ---
 RESUME_LINK = "https://drive.google.com/file/d/1yifNHLsLcUhe9zUzhGc3XfiCd5dBR2R3/view?usp=drive_link"
 
-# --- 4. RESUME CONTEXT ---
+# --- RESUME CONTEXT ---
 RESUME_CONTEXT = f"""
 NAME: Shubham Kumar
 LOCATION: Buxar, Bihar
@@ -90,15 +78,6 @@ CONTEXT:
 {RESUME_CONTEXT}
 """
 
-# --- HELPER: Async Email Sender ---
-def send_async_email(app, msg):
-    with app.app_context():
-        try:
-            mail.send(msg)
-            print("Email sent successfully!")
-        except Exception as e:
-            print(f"Failed to send email: {e}")
-
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -119,35 +98,6 @@ def chat():
     except Exception as e:
         print(f"Groq Error: {e}")
         return jsonify({"response": "I am currently unavailable."}), 500
-
-@app.route('/contact', methods=['POST'])
-def contact():
-    """Handles the form submission and sends email asynchronously"""
-    try:
-        data = request.json
-        name = data.get('name')
-        sender_email = data.get('email')
-        message_body = data.get('message')
-
-        if not name or not sender_email or not message_body:
-            return jsonify({"status": "error", "message": "Missing fields"}), 400
-
-        # Construct the Email
-        msg = Message(
-            subject=f"New Portfolio Contact from {name}",
-            recipients=[os.getenv("GMAIL_ADDRESS")], # Send to yourself
-            body=f"You received a new message from your portfolio website:\n\nName: {name}\nEmail: {sender_email}\n\nMessage:\n{message_body}"
-        )
-        
-        # Send in a separate thread to prevent timeouts
-        thread = Thread(target=send_async_email, args=(app, msg))
-        thread.start()
-        
-        return jsonify({"status": "success", "message": "Message sent successfully!"})
-
-    except Exception as e:
-        print(f"Email Error: {e}")
-        return jsonify({"status": "error", "message": "Failed to send email."}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=False)
