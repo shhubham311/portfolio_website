@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shubham Kumar | AI & Data Engineering</title>
+    <link rel="icon" type="image/png" href="static/logo.png" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* --- VARIABLES --- */
+      :root {
+          --primary: #003366;
+          --secondary: #007bff;
+          --accent: #00d4ff;
+          --text-dark: #1e293b;
+          --text-light: #64748b;
+          --bg-light: #f8fafc;
+          --white: #ffffff;
+          --transition: all 0.3s ease;
+          --shadow-sm: 0 5px 20px rgba(0,0,0,0.05);
+          --shadow-lg: 0 15px 30px rgba(0,0,0,0.15);
+      }
+
+      /* --- RESET & BASE --- */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+          font-family: 'Inter', sans-serif;
+          color: var(--text-dark);
+          background-color: var(--white);
+          line-height: 1.6;
+          overflow-x: hidden;
+      }
+
+      a { text-decoration: none; color: inherit; transition: var(--transition); }
+      ul { list-style: none; }
+      img { max-width: 100%; display: block; }
+
+      /* Utility Classes */
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+      .section-padding { padding: 80px 0; }
+
+      /* Reveal Animation */
+      .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+      .reveal.active { opacity: 1; transform: translateY(0); }
+
+      /* Buttons */
+      .btn {
+          display: inline-block; padding: 12px 28px;
+          background-color: var(--secondary); color: white;
+          border-radius: 4px; font-weight: 600; border: 2px solid var(--secondary);
+          cursor: pointer; transition: var(--transition);
+      }
+      .btn:hover { background-color: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
+
+      .btn-outline { background: transparent; color: white; border: 2px solid white; }
+      .btn-outline:hover { background: white; color: var(--primary); }
+
+      .btn-sm {
+          display: inline-block; /* Ensure anchor padding works */
+          padding: 8px 16px; font-size: 0.85rem; background: #f1f5f9;
+          color: var(--text-dark); border-radius: 6px; font-weight: 600; transition: 0.2s;
+          cursor: pointer;
+      }
+      .btn-sm:hover { background: var(--secondary); color: white; }
+
+      /* Section Headers */
+      .section-header { margin-bottom: 50px; text-align: center; }
+      .section-header h2 { font-size: 2.2rem; color: var(--primary); margin-bottom: 10px; letter-spacing: -1px; }
+      .section-header .line { width: 60px; height: 4px; background: var(--secondary); margin: 0 auto; border-radius: 2px; }
+
+      /* --- HEADER & NAVIGATION --- */
+      header {
+          position: fixed; top: 0; width: 100%; height: 70px;
+          background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(10px); z-index: 1000;
+          box-shadow: 0 2px 15px rgba(0,0,0,0.05); display: flex; align-items: center;
+      }
+
+      nav {
+          display: flex;
+          align-items: center;
+          width: 100%;
+      }
+
+      .logo {
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: var(--primary);
+          z-index: 1002;
+          white-space: nowrap;
+          margin-right: auto;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          height: 100%;
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          padding: 0 25px;
+          border-radius: 0 12px 12px 0;
+          margin-left: -2rem;
+      }
+      .logo img { height: 50px; width: 50px; object-fit: contain; padding: 5px; border-radius: 50%; background: rgba(0, 123, 255, 0.2); }
+      .logo span { color: white; font-size: 1.3rem; }
+      .logo span span { color: var(--secondary); }
+
+      .nav-links {
+          display: flex;
+          gap: 30px;
+          margin-left: 40px;
+      }
+
+      .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-dark); position: relative;}
+      .nav-links a:hover { color: var(--secondary); }
+      .nav-links a::after {
+          content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0;
+          background-color: var(--secondary); transition: width 0.3s;
+      }
+      .nav-links a:hover::after { width: 100%; }
+
+      .hamburger { display: none; cursor: pointer; z-index: 1002; font-size: 1.5rem; margin-left: 20px;}
+
+      /* --- HERO --- */
+      .hero {
+          min-height: 90vh; display: flex; align-items: center; position: relative;
+          background: var(--primary); overflow: hidden; padding-top: 70px;
+      }
+      .hero-bg {
+          position: absolute; top: 0; left: 0; width: 100%; height: 120%;
+          background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop') center/cover;
+          opacity: 0.3; z-index: 1;
+      }
+      .hero-overlay {
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+          background: linear-gradient(90deg, rgba(0,51,102,0.95) 0%, rgba(0,51,102,0.7) 100%); z-index: 2;
+      }
+      .hero-content { position: relative; z-index: 3; color: white; max-width: 800px; padding: 2rem 0; }
+      .hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+      .hero p { font-size: 1.2rem; margin-bottom: 2.5rem; color: #cbd5e1; max-width: 600px; line-height: 1.8; }
+
+      /* --- ABOUT --- */
+      .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+      .about-img { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg); position: relative; }
+      .about-img img { width: 100%; transition: transform 0.5s; }
+      .about-img:hover img { transform: scale(1.05); }
+      .about-text h3 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+
+      /* --- EDUCATION --- */
+      .education { background: var(--bg-light); }
+      .edu-card {
+          background: white; padding: 40px; border-radius: 12px;
+          box-shadow: var(--shadow-sm); border-left: 5px solid var(--secondary);
+          display: flex; align-items: flex-start; gap: 30px;
+      }
+      .edu-icon {
+          background: #e0f2fe; color: var(--secondary);
+          width: 70px; height: 70px; border-radius: 12px; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center; font-size: 2rem;
+      }
+
+      /* --- SKILLS --- */
+      .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+      .service-card {
+          background: white; padding: 35px; border-radius: 12px;
+          box-shadow: var(--shadow-sm); transition: var(--transition);
+          border: 1px solid #e2e8f0; height: 100%;
+      }
+      .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--secondary); }
+      .service-icon { font-size: 2.5rem; color: var(--secondary); margin-bottom: 20px; }
+
+      /* --- EXPERIENCE --- */
+      .timeline {
+          max-width: 900px; margin: 0 auto; position: relative;
+          border-left: 2px solid #e2e8f0; margin-left: 20px; padding-left: 30px;
+      }
+      .timeline-item { margin-bottom: 50px; position: relative; }
+      .timeline-dot {
+          position: absolute; left: -37px; top: 5px;
+          width: 16px; height: 16px; background: var(--secondary);
+          border-radius: 50%; border: 3px solid white;
+          box-shadow: 0 0 0 2px var(--secondary);
+      }
+
+      /* --- PROJECTS --- */
+      .projects { background: var(--bg-light); }
+      .project-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 30px;
+      }
+
+      .project-card {
+          background: white; border-radius: 12px; overflow: hidden;
+          box-shadow: var(--shadow-sm); transition: var(--transition);
+          display: flex; flex-direction: column; height: 100%; border: 1px solid #f1f5f9;
+          position: relative; /* REQUIRED for clickable overlay */
+      }
+      .project-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+
+      /* New class for the whole-card link */
+      .card-link {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1; /* Covers the content */
+      }
+
+      .project-img { height: 220px; width: 100%; overflow: hidden; position: relative; }
+      .project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+      .project-card:hover .project-img img { transform: scale(1.05); }
+
+      .project-info { padding: 25px; display: flex; flex-direction: column; flex: 1; }
+      .project-info h3 { margin-bottom: 12px; font-size: 1.35rem; color: var(--primary); font-weight: 700; }
+      .project-info p { margin-bottom: 20px; font-size: 0.95rem; color: var(--text-light); line-height: 1.6; flex-grow: 1; }
+
+      .project-btns {
+          display: flex; gap: 12px; flex-wrap: wrap;
+          margin-top: auto; padding-top: 15px; border-top: 1px solid #f1f5f9;
+          position: relative; /* REQUIRED for buttons to be clickable */
+          z-index: 2; /* Sit ABOVE the overlay link */
+      }
+
+      .tag {
+          display: inline-block; background: #e0f2fe; color: var(--secondary);
+          padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+          margin-right: 6px; margin-bottom: 10px;
+      }
+
+      /* --- CONTACT --- */
+      .contact { background: var(--primary); color: white; position: relative; }
+      .contact-wrapper { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; }
+      .contact-item {
+          display: flex; align-items: center; gap: 15px; margin-bottom: 25px;
+          color: white; opacity: 0.9; font-size: 1.1rem;
+      }
+      .contact-item:hover { opacity: 1; transform: translateX(5px); }
+      .contact-item i { width: 40px; height: 40px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--accent); }
+
+      .contact-form input, .contact-form textarea {
+          width: 100%; padding: 15px; margin-bottom: 20px;
+          background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+          color: white; border-radius: 6px; font-family: inherit; font-size: 1rem;
+      }
+      .contact-form input:focus, .contact-form textarea:focus {
+          outline: none; border-color: var(--accent); background: rgba(255,255,255,0.1);
+      }
+      .success-msg { color: #4ade80; display: none; margin-top: 10px; font-weight: 600;}
+      .error-msg { color: #f87171; display: none; margin-top: 10px; font-weight: 600;}
+
+      footer { background: #0f172a; color: #94a3b8; padding: 40px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+
+      /* --- CHATBOT --- */
+      .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+      .chat-toggle {
+          width: 60px; height: 60px;
+          background: linear-gradient(135deg, var(--secondary), var(--accent));
+          border-radius: 50%; display: flex; align-items: center; justify-content: center;
+          color: white; box-shadow: 0 10px 25px rgba(0,123,255,0.4);
+          cursor: pointer; border: none; font-size: 1.5rem; transition: transform 0.3s;
+      }
+      .chat-toggle:hover { transform: scale(1.1); }
+      .chat-window {
+          position: absolute; bottom: 80px; right: 0;
+          width: 360px; height: 500px; background: white; border-radius: 16px;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+          display: flex; flex-direction: column; transform: scale(0); opacity: 0; transform-origin: bottom right;
+          transition: var(--transition); overflow: hidden; border: 1px solid #e2e8f0;
+      }
+      .chat-window.active { transform: scale(1); opacity: 1; }
+      .chat-header { background: var(--primary); color: white; padding: 18px; display: flex; justify-content: space-between; align-items: center; }
+      .chat-body { flex: 1; padding: 15px; background: #f8fafc; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+      .msg { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.5; }
+      .msg.bot { background: white; color: var(--text-dark); border: 1px solid #e2e8f0; align-self: flex-start; border-bottom-left-radius: 2px; }
+      .msg.user { background: var(--secondary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+      .chat-input-area { padding: 15px; background: white; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; }
+      .chat-input-area input { flex: 1; padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 25px; outline: none; }
+      .send-btn { background: var(--secondary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+      /* --- RESPONSIVE QUERIES --- */
+      @media (max-width: 1024px) {
+          .hero h1 { font-size: 3rem; }
+          .container { padding: 0 1.5rem; }
+      }
+
+      @media (max-width: 768px) {
+          .hamburger { display: block; margin-left: auto; margin-right: 0; }
+          .logo { margin-right: 0; }
+          .nav-links {
+              position: fixed; top: 0; right: -100%;
+              width: 75%; height: 100vh; background: white;
+              flex-direction: column; justify-content: center; align-items: center;
+              box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+              transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              padding: 2rem; z-index: 1001; margin-left: 0;
+          }
+          .nav-links.active { right: 0; }
+          .nav-links li { margin: 15px 0; font-size: 1.2rem; }
+          .about-grid, .contact-wrapper, .edu-card { grid-template-columns: 1fr; gap: 40px; }
+          .about-img { order: -1; max-height: 300px; }
+          .edu-card { flex-direction: column; }
+          .hero { padding-top: 100px; padding-bottom: 60px; min-height: auto; text-align: left; }
+          .hero h1 { font-size: 2.5rem; }
+          .chat-window { width: 90vw; height: 60vh; right: 5vw; bottom: 100px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="#" class="logo">
+            <img src="static/logo.png" alt="Logo" />
+            <span>SHUBHAM<span style="color: var(--secondary);">.AI</span></span>
+          </a>
+          <div class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+          </div>
+          <ul class="nav-links">
+            <li><a href="#about" onclick="toggleMenu()">About</a></li>
+            <li><a href="#education" onclick="toggleMenu()">Education</a></li>
+            <li><a href="#services" onclick="toggleMenu()">Skills</a></li>
+            <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
+            <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
+            <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="container">
+        <div class="hero-content reveal active">
+          <h1>Engineering Intelligent Solutions</h1>
+          <p>
+            AI & Machine Learning Engineer with 10 months of experience building
+            Computer Vision and Multimodal RAG systems. Engineered end-to-end ML
+            pipelines using Python, PyTorch, and FastAPI.
+          </p>
+          <div
+            style="margin-top: 25px; display: flex; gap: 15px; flex-wrap: wrap;"
+          >
+            <a href="#projects" class="btn">View Projects</a>
+            <a
+              href="https://drive.google.com/file/d/1K7WmsumgIE32niIhhtHBs6Ny3cVA2olD/view?usp=drive_link"
+              target="_blank"
+              class="btn btn-outline"
+              >Download Resume <i class="fas fa-download"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section-padding">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-img reveal">
+            <img
+              src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+              alt="AI Tech"
+            />
+          </div>
+          <div class="about-text reveal">
+            <h3>Shubham Kumar</h3>
+            <p
+              style="font-size: 1.1rem; color: var(--secondary); margin-bottom: 15px; font-weight: 600;"
+            >
+              AI & Data Engineering Specialist
+            </p>
+            <p style="color:var(--text-light); margin-bottom: 15px;">
+              I am a passionate engineer from Buxar, Bihar with a B.Tech from Lovely Professional University. 
+              My professional philosophy is rooted in curiosity and analytical problem-solving.
+            </p>
+            <p style="color:var(--text-light);">
+              Engineered end-to-end ML pipelines using Python, PyTorch, and
+              FastAPI, optimizing workflows to reduce manual tasks. Proficient
+              in integrating complex APIs and delivering reliable, scalable
+              backend solutions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" class="section-padding education">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Education</h2>
+          <div class="line"></div>
+        </div>
+        <div class="edu-card reveal">
+          <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div class="edu-details">
+            <h3 style="margin-bottom: 5px;">Lovely Professional University</h3>
+            <h4
+              style="color:var(--secondary); font-weight: 600; margin-bottom: 10px;"
+            >
+              B.Tech - Computer Science and Engineering
+            </h4>
+            <p style="color:var(--text-light);">
+              Phagwara, Punjab, India | CGPA: 8.50
+            </p>
+            <p
+              style="color:var(--text-light); font-size: 0.9rem; margin-top: 5px;"
+            >
+              Sep’2021 – July’2025
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section-padding">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Technical Skills</h2>
+          <div class="line"></div>
+        </div>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <i class="fas fa-code service-icon"></i>
+            <h3>Languages</h3>
+            <p style="color:var(--text-light);">
+              Python, SQL (MySQL), HTML
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-layer-group service-icon"></i>
+            <h3>Frameworks</h3>
+            <p style="color:var(--text-light);">
+              PyTorch, FastAPI, Flask, YOLOv8, Docker, AWS (S3)
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-server service-icon"></i>
+            <h3>Tools</h3>
+            <p style="color:var(--text-light);">
+              Git/GitHub, Postman, Pinecone, Streamlit
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-brain service-icon"></i>
+            <h3>Core Competencies</h3>
+            <p style="color:var(--text-light);">
+              Computer Vision, RAG Pipelines, Object Detection, Prompt
+              Engineering, Multimodal Data Extraction
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="experience"
+      class="section-padding"
+      style="background: #f8fafc;"
+    >
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Experience</h2>
+          <div class="line"></div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span
+                style="color:var(--secondary); font-weight:700; font-size: 0.9rem; display:block; margin-bottom:5px;"
+                >Feb 2025 – Nov 2025</span
+              >
+              <h3 style="margin-bottom: 5px;">
+                Data Engineering & AI/ML Intern
+              </h3>
+              <h4
+                style="color:var(--text-light); font-size: 1rem; margin-bottom: 15px;"
+              >
+                BiUP Technologies Pvt. Ltd., Gurugram
+              </h4>
+              <ul
+                style="margin-left:20px; color:var(--text-dark); list-style-type: disc;"
+              >
+                <li style="margin-bottom: 8px;">
+                  <strong>Multimodal RAG Pipeline:</strong> Architected
+                  ingestion pipeline (PDF, DOCX) using FastAPI & LLMs. Automated
+                  feature mapping and Pinecone vector storage, reducing manual
+                  data extraction time by 90%.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>Real-Time Computer Vision:</strong> Engineered vehicle
+                  photography guidance using YOLOv8 with <60ms latency.
+                  Developed custom IoU metrics and silhouette matching.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>MLOps:</strong> Enhanced production stability by
+                  resolving critical PyTorch serialization issues. Established
+                  comprehensive logging and error-handling protocols for
+                  integrations.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section-padding projects">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Featured Projects</h2>
+          <div class="line"></div>
+        </div>
+
+        <div class="project-grid">
+          
+          <div class="project-card reveal">
+             <a href="https://predictive-maintenance-hf3d.onrender.com" target="_blank" class="card-link"></a>
+            <div class="project-img">
+              <img src="static/turbine.png" alt="Aircraft Engine Turbofan" />
+            </div>
+            <div class="project-info">
+              <h3>Advanced Predictive Maintenance</h3>
+              <p>
+                Full-stack ML platform for aircraft engine health monitoring.
+                Achieved 70.36% R² accuracy on NASA C-MAPSS dataset using XGBoost with Optuna optimization.
+              </p>
+              <div style="margin-bottom: 15px;">
+                <span class="tag">XGBoost</span><span class="tag">Optuna</span>
+                <span class="tag">FastAPI</span><span class="tag">Docker</span>
+              </div>
+              <div class="project-btns">
+                <a href="https://github.com/shhubham311/Predictive-Maintenance" target="_blank" class="btn-sm"><i class="fab fa-github"></i> Code</a>
+                <a href="https://predictive-maintenance-hf3d.onrender.com" target="_blank" class="btn-sm"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <a href="https://github.com/shhubham311/iot-ids-pipeline" target="_blank" class="card-link"></a>
+            <div class="project-img">
+              <img src="static/iot.png" alt="IoT Security Dashboard" />
+            </div>
+            <div class="project-info">
+              <h3>Real-Time IoT Intrusion Detection</h3>
+              <p>
+                End-to-end MLOps pipeline detecting DDoS and Botnet attacks with 
+                <strong>99.81% accuracy</strong> and <strong>&lt;50ms latency</strong>. 
+                Handles extreme class imbalance using stratified sampling.
+              </p>
+              <div style="margin-bottom: 15px;">
+                <span class="tag">MLOps</span><span class="tag">CI/CD</span>
+                <span class="tag">XGBoost</span><span class="tag">FastAPI</span>
+              </div>
+              <div class="project-btns">
+                <a href="https://github.com/shhubham311/iot-ids-pipeline" target="_blank" class="btn-sm"><i class="fab fa-github"></i> Code</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <a href="https://huggingface.co/spaces/shub3Ed/ProfitGenAI" target="_blank" class="card-link"></a>
+            <div class="project-img">
+              <img src="static/sales.png" alt="AI Sales Agent" />
+            </div>
+            <div class="project-info">
+              <h3>ProfitGenAI: E-commerce Agent</h3>
+              <p>
+                Hybrid recommendation engine for a 50k+ product catalog. Integrates 
+                Llama-based LLM via Groq API to generate persona-driven sales pitches
+                with <strong>&lt;150ms response time</strong>.
+              </p>
+              <div style="margin-bottom: 15px;">
+                <span class="tag">GenAI</span><span class="tag">RAG</span>
+                <span class="tag">Groq API</span><span class="tag">FAISS</span>
+              </div>
+              <div class="project-btns">
+                <a href="https://github.com/shhubham311/ProfitGenAI" target="_blank" class="btn-sm"><i class="fab fa-github"></i> Code</a>
+                <a href="https://huggingface.co/spaces/shub3Ed/ProfitGenAI" target="_blank" class="btn-sm"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="extra" class="section-padding">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Volunteering</h2>
+          <div class="line"></div>
+        </div>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <i class="fas fa-leaf service-icon"></i>
+            <h3>Girnar Foundation</h3>
+            <p style="font-size:0.95rem; color:var(--text-light);">
+              Participated in Indoor Plantation Drive to promote urban
+              greenery.
+            </p>
+          </div>
+
+          <div class="service-card reveal">
+            <i class="fas fa-users service-icon"></i>
+            <h3>Geeks for Geeks LPU</h3>
+            <p style="font-size:0.95rem; color:var(--text-light);">
+              Participated and Coordinated in different events for the GFG LPU
+              Page.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section-padding contact">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 style="color:white;">Get In Touch</h2>
+          <div class="line" style="background:white;"></div>
+        </div>
+        <div class="contact-wrapper reveal">
+          <div class="contact-info">
+            <h3 style="color:white; margin-bottom: 15px; font-size: 1.8rem;">
+              Let's Connect
+            </h3>
+            <p style="opacity:0.9; margin-bottom:30px;">
+              Open for opportunities in Data Science and AI/ML. Feel free to
+              reach out via email or phone.
+            </p>
+            <a href="mailto:shubham31103@gmail.com" class="contact-item"
+              ><i class="fas fa-envelope"></i> shubham31103@gmail.com
+            </a>
+            <a href="tel:+916204992324" class="contact-item"
+              ><i class="fas fa-phone"></i> +91 6204992324
+            </a>
+            <a
+              href="https://linkedin.com/in/shubhamkumar311/"
+              target="_blank"
+              class="contact-item"
+              ><i class="fab fa-linkedin"></i> LinkedIn Profile
+            </a>
+            <a
+              href="https://github.com/shhubham311"
+              target="_blank"
+              class="contact-item"
+              ><i class="fab fa-github"></i> GitHub Profile
+            </a>
+          </div>
+          <div class="contact-form">
+            <form id="contactForm" onsubmit="handleContact(event)">
+              <input type="text" id="name" placeholder="Your Name" required />
+              <input
+                type="email"
+                id="email"
+                placeholder="Your Email"
+                required
+              />
+              <textarea
+                id="message"
+                rows="5"
+                placeholder="How can I help you?"
+                required
+              ></textarea>
+              <button type="submit" class="btn" style="border-color:white;">
+                Send Message
+              </button>
+              <p id="successMsg" class="success-msg">
+                Message sent successfully!
+              </p>
+              <p id="errorMsg" class="error-msg">Error sending message.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Shubham Kumar. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <div class="chat-widget" id="chat">
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+          <div>
+            <h4 style="margin:0;">AI Assistant</h4>
+            <span style="font-size:0.75rem; opacity:0.8;">Powered by Groq</span>
+          </div>
+          <button
+            onclick="toggleChat()"
+            style="background:none; border:none; color:white; cursor:pointer; font-size: 1.2rem;"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="chat-body" id="chatBody">
+          <div class="msg bot">
+            Hello! Ask me about Shubham's skills, experience, or projects.
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input
+            type="text"
+            id="userInput"
+            placeholder="Ask a question..."
+            onkeypress="handleEnter(event)"
+          />
+          <button class="send-btn" onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+      <button class="chat-toggle" onclick="toggleChat()">
+        <i class="fas fa-comment-dots"></i>
+      </button>
+    </div>
+
+    <script>
+      // Mobile Menu Toggle
+      function toggleMenu() {
+          document.querySelector('.nav-links').classList.toggle('active');
+      }
+
+      // Scroll Animations
+      function revealOnScroll() {
+          const reveals = document.querySelectorAll('.reveal');
+          reveals.forEach(reveal => {
+              const windowHeight = window.innerHeight;
+              const elementTop = reveal.getBoundingClientRect().top;
+              const elementVisible = 100;
+              if(elementTop < windowHeight - elementVisible) {
+                  reveal.classList.add('active');
+              }
+          });
+      }
+      window.addEventListener('scroll', revealOnScroll);
+      revealOnScroll(); // Trigger once on load
+
+      // Contact Form (Connected to Flask /contact)
+      async function handleContact(e) {
+          e.preventDefault();
+          const btn = e.target.querySelector('button');
+          const originalText = btn.innerText;
+          const successMsg = document.getElementById('successMsg');
+          const errorMsg = document.getElementById('errorMsg');
+
+          btn.innerText = "Sending...";
+          btn.disabled = true;
+          successMsg.style.display = 'none';
+          errorMsg.style.display = 'none';
+
+          const formData = {
+              name: document.getElementById('name').value,
+              email: document.getElementById('email').value,
+              message: document.getElementById('message').value
+          };
+
+          try {
+              const response = await fetch('/contact', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(formData)
+              });
+
+              const result = await response.json();
+
+              if (response.ok && result.status === 'success') {
+                  successMsg.style.display = 'block';
+                  e.target.reset();
+                  setTimeout(() => successMsg.style.display = 'none', 5000);
+              } else {
+                  errorMsg.style.display = 'block';
+              }
+          } catch (err) {
+              console.error("Error:", err);
+              errorMsg.style.display = 'block';
+          } finally {
+              btn.innerText = originalText;
+              btn.disabled = false;
+          }
+      }
+
+      // Chatbot Logic (Connected to Flask /api/chat)
+      const chatWindow = document.getElementById('chatWindow');
+      function toggleChat() {
+          chatWindow.classList.toggle('active');
+          if(chatWindow.classList.contains('active')) document.getElementById('userInput').focus();
+      }
+      function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
+      function scrollToBottom() { const b = document.getElementById('chatBody'); b.scrollTop = b.scrollHeight; }
+
+      async function sendMessage() {
+          const input = document.getElementById('userInput');
+          const text = input.value.trim();
+          if(!text) return;
+
+          const chatBody = document.getElementById('chatBody');
+          chatBody.innerHTML += `<div class="msg user">${text}</div>`;
+          input.value = ''; scrollToBottom();
+
+          // Typing Indicator
+          const typingId = 'typing-' + Date.now();
+          chatBody.innerHTML += `<div class="msg bot" id="${typingId}">...</div>`;
+          scrollToBottom();
+
+          try {
+              const response = await fetch('/api/chat', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ message: text })
+              });
+
+              const data = await response.json();
+              document.getElementById(typingId).remove();
+              chatBody.innerHTML += `<div class="msg bot">${data.response}</div>`;
+              scrollToBottom();
+
+          } catch (err) {
+              console.error("Chat Error:", err);
+              document.getElementById(typingId).remove();
+              chatBody.innerHTML += `<div class="msg bot">Sorry, I'm having trouble connecting to the server.</div>`;
+          }
+      }
+    </script>
+  </body>
+</html>
