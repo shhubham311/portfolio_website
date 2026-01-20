@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from openai import OpenAI  # For Groq
+from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -80,7 +80,8 @@ CONTEXT:
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    # Pass the API key from .env to the HTML template
+    return render_template('index.html', web3forms_key=os.getenv("WEB3FORMS_ACCESS_KEY"))
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
