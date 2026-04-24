@@ -18,7 +18,7 @@ app = Flask(
 CORS(app)
 
 # --- RESUME LINK ---
-RESUME_LINK = "https://drive.google.com/file/d/1yifNHLsLcUhe9zUzhGc3XfiCd5dBR2R3/view?usp=drive_link"
+RESUME_LINK = "https://drive.google.com/file/d/1v9tj8B29xUvkx2VIl__JYLfOOVQZa3Wn/view?usp=drive_link"
 
 # --- RESUME CONTEXT ---
 RESUME_CONTEXT = f"""
