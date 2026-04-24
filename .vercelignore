@@ -1,0 +1,14 @@
+.env
+.env.*
+.git
+.gitignore
+.vercel
+pyproject.toml
+uv.lock
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.venv/

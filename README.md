@@ -1,6 +1,6 @@
-# [Portfolio Website](https://portfolio-website-5i5g.onrender.com)
+# Portfolio Website
 
-A professional AI-powered portfolio website built with Flask, featuring an interactive chatbot powered by Groq's LLaMA model and a contact form using Web3Forms. The website is deployed on Render.
+A professional AI-powered portfolio website built with Flask, featuring an interactive chatbot powered by Groq's LLaMA model and a contact form using Web3Forms. The website is ready to deploy on Vercel.
 
 ## Project Overview
 
@@ -10,9 +10,16 @@ This is a modern, responsive portfolio website for **Shubham Kumar**, an AI & Da
 
 ```
 portfolio_website/
-├── app.py                 # Flask application entry point
+├── app.py                 # Local Flask runner
+├── api/
+│   ├── __init__.py
+│   └── index.py           # Vercel Flask serverless entry point
+├── .python-version        # Python runtime version for Vercel
 ├── requirements.txt       # Python dependencies
-|—— .gitignore
+├── vercel.json            # Vercel routing and function settings
+├── .gitignore
+├── .vercelignore          # Files ignored during Vercel deployment
+├── public/                # Static assets served by Vercel's CDN
 ├── static/                # Contains images for logo, favicon and projects
 ├── templates/
 │   └── index.html         # Main HTML template with inline CSS and JavaScript
@@ -22,7 +29,10 @@ portfolio_website/
 ## File Descriptions
 
 ### `app.py`
-The main Flask backend application that handles:
+The local Flask runner. Use this when running the site on your machine with `python app.py`.
+
+### `api/index.py`
+The Flask backend application used by Vercel. It handles:
 
 - **Groq AI Integration**: Connects to Groq's API using the OpenAI SDK to power the chatbot.
 - **Resume Context**: Embeds professional information about Shubham Kumar to be used by the AI assistant.
@@ -52,6 +62,7 @@ The main HTML template containing the entire frontend of the portfolio.
 ### `.env` (Not Included in Repo)
 Contains sensitive environment variables:
 - `GROQ_API_KEY` - Your API key for the Groq service.
+- `GROQ_MODEL` - Optional Groq model override. Defaults to `llama-3.3-70b-versatile`.
 - `WEB3FORMS_ACCESS_KEY` - Your access key from Web3Forms for the contact form.
 
 ## Key Features
@@ -146,7 +157,22 @@ Receives and processes chat messages, returning an AI-generated response.
 - **AI**: Groq API (Llama Model)
 - **Frontend**: HTML5, CSS3, Vanilla JavaScript
 - **Contact Form**: Web3Forms
-- **Deployment**: Render
+- **Deployment**: Vercel
+
+## Deploying on Vercel
+
+1. Push this repository to GitHub.
+2. Go to [Vercel](https://vercel.com), select **Add New Project**, and import `shhubham311/portfolio_website`.
+3. Keep the framework preset as **Other** if Vercel does not auto-detect Flask.
+4. Add these environment variables in **Settings > Environment Variables**:
+   ```text
+   GROQ_API_KEY=your_groq_api_key
+   GROQ_MODEL=llama-3.3-70b-versatile
+   WEB3FORMS_ACCESS_KEY=your_web3forms_access_key
+   ```
+5. Deploy the project.
+
+Vercel uses `api/index.py` as the Flask serverless function. Static files are also available in `public/static/` so Vercel can serve them from its CDN.
 
 ## License
 

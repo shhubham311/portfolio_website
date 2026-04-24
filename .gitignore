@@ -1,5 +1,6 @@
 # Environment variables
 .env
+.env.*
 
 # Python artifacts
 __pycache__/
@@ -11,3 +12,10 @@ __pycache__/
 venv/
 env/
 .venv/
+
+# Vercel local project metadata
+.vercel/
+
+# Local Vercel/uv build artifacts
+pyproject.toml
+uv.lock
