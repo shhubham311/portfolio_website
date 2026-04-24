@@ -47,7 +47,6 @@ Python package dependencies:
 - `flask_cors` - Enables Cross-Origin Resource Sharing.
 - `openai` - Client for interacting with Groq's API.
 - `python-dotenv` - Loads environment variables from a `.env` file.
-- `gunicorn` - A Python WSGI HTTP Server for UNIX.
 
 ### `templates/index.html`
 The main HTML template containing the entire frontend of the portfolio.
